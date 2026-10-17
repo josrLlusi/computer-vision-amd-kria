@@ -2,7 +2,7 @@
 venv/
 __pycache__/
 
-# File model AI (Sangat besar)
+# File model AI
 *.pt
 *.onnx
 *.part

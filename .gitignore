@@ -1,0 +1,18 @@
+# Lingkungan virtual Python
+venv/
+__pycache__/
+
+# File model AI
+*.pt
+*.onnx
+
+# File log dan output dari Ultralytics YOLO
+runs/
+
+# File data Hex dan simulasi FPGA
+*.hex
+*.dat
+*.vcd
+
+# File konfigurasi OS
+.DS_Store

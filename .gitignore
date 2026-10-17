@@ -2,9 +2,10 @@
 venv/
 __pycache__/
 
-# File model AI
+# File model AI (Sangat besar)
 *.pt
 *.onnx
+*.part
 
 # File log dan output dari Ultralytics YOLO
 runs/

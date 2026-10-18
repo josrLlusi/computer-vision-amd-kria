@@ -1,0 +1,61 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/computer-vision-amd-kria
+vconv3x3_s2
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+!s110 1792242495
+!i10b 1
+!s100 >3Q1b0Y?[B3gL7nX5[0C22
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Ioji7j43Lc=<N>7bcTU17b3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1792242366
+8conv3x3_s2.sv
+Fconv3x3_s2.sv
+!i122 0
+L0 3 168
+Z4 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z5 !s108 1792242495.000000
+!s107 conv3x3_s2.sv|
+!s90 -reportprogress|300|-sv|conv3x3_s2.sv|
+!i113 1
+o-sv
+Z6 tCvgOpt 0
+vtb_conv3x3
+R1
+!s110 1792242496
+!i10b 1
+!s100 _kE>b308Q05SUj_88A4Z41
+R2
+IKJh2@BPdc2IN2LTC^fz`k2
+R3
+S1
+R0
+w1792199813
+8tb_conv3x3.sv
+Ftb_conv3x3.sv
+!i122 1
+L0 3 89
+R4
+r1
+!s85 0
+31
+R5
+!s107 tb_conv3x3.sv|
+!s90 -reportprogress|300|-sv|tb_conv3x3.sv|
+!i113 1
+o-sv
+R6

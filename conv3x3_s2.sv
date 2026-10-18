@@ -87,53 +87,79 @@ module conv3x3_s2 (
         $readmemh("tb_weight_3x3.hex", weights);
     end
     
-    // --------------------------------------------------------
+// --------------------------------------------------------
     // TODO 4: Logika Multiply-Accumulate (MAC) & Stride 2 FSM
     // --------------------------------------------------------
     logic signed [63:0] mac_temp;
-    logic [9:0] pixel_x, pixel_y; // Pelacak koordinat piksel
+    logic [9:0] pixel_x, pixel_y;
     
-    // Operasi MAC Kombinasional (Sirkuit DSP)
-    // Mengalikan 9 piksel di window_3x3 dengan 9 bobot
-    always_comb begin
-        mac_temp = (window_3x3[0][0] * weights[0]) +
-                   (window_3x3[0][1] * weights[1]) +
-                   (window_3x3[0][2] * weights[2]) +
-                   (window_3x3[1][0] * weights[3]) +
-                   (window_3x3[1][1] * weights[4]) +
-                   (window_3x3[1][2] * weights[5]) +
-                   (window_3x3[2][0] * weights[6]) +
-                   (window_3x3[2][1] * weights[7]) +
-                   (window_3x3[2][2] * weights[8]);
-    end
-
-    // FSM Kontroler Stride 2 & Register Keluaran
+    // --- PERBAIKAN PIPELINE: Register Penunda (Delay) 1 Siklus ---
+    // Karena window_3x3 baru terisi penuh 1 siklus SETELAH pixel masuk,
+    // kita harus menunda koordinat X dan Y agar sejajar dengan isi matriks.
+    logic [9:0] win_x, win_y;
+    logic win_valid;
+    
     always_ff @(posedge clk) begin
         if (!rst_n) begin
-            pixel_x   <= '0;
-            pixel_y   <= '0;
-            valid_out <= 1'b0;
-            pixel_out <= '0;
+            win_x <= '0;
+            win_y <= '0;
+            win_valid <= 1'b0;
+        end else begin
+            // Menyalin koordinat saat ini untuk digunakan di siklus berikutnya
+            win_x <= pixel_x;
+            win_y <= pixel_y;
+            win_valid <= valid_in;
+        end
+    end
+
+    // Alokasi memori perantara untuk hasil perkalian 64-bit
+    logic signed [63:0] p [0:8];
+    
+    always_comb begin
+        // Perkalian Kombinasional MAC
+        p[0] = window_3x3[0][2] * weights[0];
+        p[1] = window_3x3[0][1] * weights[1];
+        p[2] = window_3x3[0][0] * weights[2];
+        
+        p[3] = window_3x3[1][2] * weights[3];
+        p[4] = window_3x3[1][1] * weights[4];
+        p[5] = window_3x3[1][0] * weights[5];
+        
+        p[6] = window_3x3[2][2] * weights[6];
+        p[7] = window_3x3[2][1] * weights[7];
+        p[8] = window_3x3[2][0] * weights[8];
+        
+        mac_temp = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7] + p[8];
+    end
+
+    // FSM Pelacak Koordinat Input (pixel_x, pixel_y) - Bergerak lebih dulu
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            pixel_x <= '0;
+            pixel_y <= '0;
         end else if (valid_in) begin
-            // 1. Melacak Koordinat X dan Y
             if (pixel_x == IMAGE_WIDTH - 1) begin
                 pixel_x <= '0;
                 pixel_y <= pixel_y + 1;
             end else begin
                 pixel_x <= pixel_x + 1;
             end
+        end
+    end
 
-            // 2. Evaluasi Stride 2 & Eksekusi Keluaran
-            // Stride 2 berarti kita hanya mengambil hasil saat X genap dan Y genap.
-            // Kita juga harus memastikan window sudah terisi penuh (Y >= 2 dan X >= 2).
-            if (pixel_y >= 2 && pixel_x >= 2 && 
-               (pixel_x[0] == 1'b0) && (pixel_y[0] == 1'b0)) begin
+    // FSM Evaluasi Stride 2 & Keluaran - Dieksekusi berdasarkan waktu yang ditunda (win_x, win_y)
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            valid_out <= 1'b0;
+            pixel_out <= '0;
+        end else if (win_valid) begin
+            // Menggunakan win_y dan win_x yang sudah selaras dengan data matriks
+            if (win_y >= 2 && win_x >= 2 && 
+               (win_x[0] == 1'b0) && (win_y[0] == 1'b0)) begin
                 
-                // Pemotongan Q16.16: Mengambil bit [47:16] dari hasil 64-bit
                 pixel_out <= mac_temp[47:16]; 
                 valid_out <= 1'b1;
             end else begin
-                // Matikan sinyal valid_out untuk piksel ganjil (dilewati oleh stride)
                 valid_out <= 1'b0;
             end
         end else begin

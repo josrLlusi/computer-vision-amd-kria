@@ -1,17 +1,23 @@
 `timescale 1ns / 1ps
 
-module conv3x3_s2 (
-    input  logic               clk,
-    input  logic               rst_n,
+module conv3x3_s2 #(
+    parameter IMAGE_WIDTH = 640,
+    parameter IN_CHANNELS = 3,   // Jumlah saluran masuk (Contoh: 3 untuk citra RGB)
+    parameter OUT_CHANNELS = 64  // Jumlah saluran keluar/filter (Contoh: 64 filter)
+)(
+    input  logic clk,
+    input  logic rst_n,
     
-    // Antarmuka Aliran Masukan (Mirip AXI-Stream)
-    input  logic signed [31:0] pixel_in,   // Data gambar format Q16.16
-    input  logic               valid_in,
-    output logic               ready_out,
+    // Antarmuka Input (Data masuk harus cukup lebar menampung semua saluran)
+    // 32 bit dikali jumlah IN_CHANNELS
+    input  logic signed [(IN_CHANNELS*32)-1:0] pixel_in, 
+    input  logic valid_in,
     
-    // Antarmuka Aliran Keluaran
-    output logic signed [31:0] pixel_out,  // Hasil konvolusi format Q16.16
-    output logic               valid_out
+    // Antarmuka Output (Data keluar memuntahkan hasil konvolusi semua filter paralel)
+    // 32 bit dikali jumlah OUT_CHANNELS
+    output logic ready_out,
+    output logic signed [(OUT_CHANNELS*32)-1:0] pixel_out,
+    output logic valid_out
 );
 
     // Parameter konfigurasi arsitektur

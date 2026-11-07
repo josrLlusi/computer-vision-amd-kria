@@ -17,3 +17,13 @@ runs/
 
 # File konfigurasi OS
 .DS_Store
+
+#File hasil generate
+*.hex
+*.npy
+tb_cfg.svh
+tb_params.svh
+work/
+transcript
+*.wlf
+tcl_stacktrace.txt

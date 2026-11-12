@@ -4,7 +4,7 @@ validasi_backbone.py
 Memvalidasi hasil ModelSim tb_backbone.sv (mode conv / c3k2 / chain):
   sim_o1.hex (+ sim_o2.hex)  vs  gold_o1.hex (+ gold_o2.hex)   -> harus 0 LSB
   dan akurasi terhadap referensi float ref_o1.npy (+ ref_o2.npy).
-Pemakaian (root repo): python validasi_backbone.py
+Pemakaian (root repo): python scripts/validasi_backbone.py
 """
 import re
 import numpy as np

@@ -1,8 +1,8 @@
 # ==========================================================================
 # run_sim_multich.do (v2) - Simulasi conv3x3_s2 v2 di ModelSim
-# Jalankan dari root repo SETELAH: python ekstrak_uji_multichannel.py --layer N ...
-#   GUI   : vsim -do run_sim_multich.do
-#   Batch : vsim -c -do run_sim_multich.do
+# Jalankan dari root repo SETELAH: python scripts/ekstrak_uji_multichannel.py --layer N ...
+#   GUI   : vsim -do sim/run_sim_multich.do
+#   Batch : vsim -c -do sim/run_sim_multich.do
 # Uji ketahanan handshake: ubah BUBBLE / BACKPRESSURE (persen) dan FRAMES di bawah.
 # Rekomendasi uji stres: BUBBLE 20, BACKPRESSURE 50, FRAMES 2 (back-pressure ringan
 # seperti 20% belum tentu memicu kasus buffer keluaran penuh).
@@ -16,8 +16,8 @@ if {[file exists work]} {
 }
 vlib work
 
-vlog -sv +incdir+. conv3x3_s2.sv
-vlog -sv +incdir+. tb_conv3x3_multich.sv
+vlog -sv +incdir+. rtl/conv3x3_s2.sv
+vlog -sv +incdir+. tb/tb_conv3x3_multich.sv
 
 vsim -voptargs="+acc" work.tb_conv3x3_multich +BUBBLE=$BUBBLE +BACKPRESSURE=$BACKPRESSURE +FRAMES=$FRAMES
 

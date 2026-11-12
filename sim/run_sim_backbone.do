@@ -1,8 +1,8 @@
 # ==========================================================================
 # run_sim_backbone.do - Simulasi conv_kxk / c3k2 / backbone_l0_l5 di ModelSim
-# Jalankan dari root repo SETELAH: python ekstrak_uji_backbone.py --mode ...
-#   GUI   : do run_sim_backbone.do
-#   Batch : vsim -c -do run_sim_backbone.do
+# Jalankan dari root repo SETELAH: python scripts/ekstrak_uji_backbone.py --mode ...
+#   GUI   : do sim/run_sim_backbone.do
+#   Batch : vsim -c -do sim/run_sim_backbone.do
 # Uji stres: BUBBLE 20, BACKPRESSURE 50, FRAMES 2
 # ==========================================================================
 set BUBBLE       0
@@ -14,8 +14,8 @@ if {[file exists work]} {
 }
 vlib work
 
-vlog -sv +incdir+. conv_kxk.sv stream_fifo.sv c3k2.sv backbone_l0_l5.sv
-vlog -sv +incdir+. tb_backbone.sv
+vlog -sv +incdir+. rtl/conv_kxk.sv rtl/stream_fifo.sv rtl/c3k2.sv rtl/backbone_l0_l5.sv
+vlog -sv +incdir+. tb/tb_backbone.sv
 
 vsim -voptargs="+acc" work.tb_backbone +BUBBLE=$BUBBLE +BACKPRESSURE=$BACKPRESSURE +FRAMES=$FRAMES
 

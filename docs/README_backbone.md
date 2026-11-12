@@ -7,14 +7,14 @@ Bagian backbone yang ditugaskan: **Conv 64 → Conv 128 → C3k2 256 → Conv 25
 
 | File | Isi |
 |---|---|
-| `conv_kxk.sv` | Conv generik: 1×1, 3×3 stride 1, 3×3 stride 2 (+ BN-folded bias + SiLU) |
-| `stream_fifo.sv` | FIFO valid/ready (penahan cabang di C3k2) |
-| `c3k2.sv` | Blok C3k2 (cv1 → chunk → Bottleneck + residual → concat 3 bagian → cv2) |
-| `backbone_l0_l5.sv` | Rangkaian layer 0–5, keluaran `p3_*` (layer 4) dan `l5_*` (layer 5) |
-| `tb_backbone.sv` | Testbench generik (mode conv / c3k2 / chain) |
-| `ekstrak_uji_backbone.py` | Data uji + golden bit-exact + referensi PyTorch |
-| `validasi_backbone.py` | Pemeriksa hasil simulasi |
-| `run_sim_backbone.do` | Skrip ModelSim |
+| `rtl/conv_kxk.sv` | Conv generik: 1×1, 3×3 stride 1, 3×3 stride 2 (+ BN-folded bias + SiLU) |
+| `rtl/stream_fifo.sv` | FIFO valid/ready (penahan cabang di C3k2) |
+| `rtl/c3k2.sv` | Blok C3k2 (cv1 → chunk → Bottleneck + residual → concat 3 bagian → cv2) |
+| `rtl/backbone_l0_l5.sv` | Rangkaian layer 0–5, keluaran `p3_*` (layer 4) dan `l5_*` (layer 5) |
+| `tb/tb_backbone.sv` | Testbench generik (mode conv / c3k2 / chain) |
+| `scripts/ekstrak_uji_backbone.py` | Data uji + golden bit-exact + referensi PyTorch |
+| `scripts/validasi_backbone.py` | Pemeriksa hasil simulasi |
+| `sim/run_sim_backbone.do` | Skrip ModelSim |
 
 `conv3x3_s2.sv` dan file `*_multich*` yang lama tetap valid untuk menguji Conv 3×3/2 sendiri.
 `conv_kxk.sv` dengan `KERNEL=3, STRIDE=2` menghitung hal yang sama.
@@ -35,16 +35,16 @@ Concat menggabungkan **tiga** bagian (y0, y1, z), bukan dua seperti tampak di di
 
 ```powershell
 # C3k2 cepat (bobot acak)
-python ekstrak_uji_backbone.py --mode c3k2 --layer 2 --size 16
+python scripts/ekstrak_uji_backbone.py --mode c3k2 --layer 2 --size 16
 # C3k2 dengan bobot & aktivasi ASLI
-python ekstrak_uji_backbone.py --mode c3k2 --layer 2 --yolo yolo26n.pt --image gambar_tes.jpeg
-python ekstrak_uji_backbone.py --mode c3k2 --layer 4 --yolo yolo26n.pt --image gambar_tes.jpeg
+python scripts/ekstrak_uji_backbone.py --mode c3k2 --layer 2 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
+python scripts/ekstrak_uji_backbone.py --mode c3k2 --layer 4 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
 # Rangkaian layer 0–5 (mulai dari 64, lalu 640 penuh)
-python ekstrak_uji_backbone.py --mode chain --size 64 --yolo yolo26n.pt --image gambar_tes.jpeg
-python ekstrak_uji_backbone.py --mode chain --yolo yolo26n.pt --image gambar_tes.jpeg
+python scripts/ekstrak_uji_backbone.py --mode chain --size 64 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
+python scripts/ekstrak_uji_backbone.py --mode chain --yolo yolo26n.pt --image assets/gambar_tes.jpeg
 ```
-Lalu di ModelSim `do run_sim_backbone.do` (atau `vsim -c -do run_sim_backbone.do`), dan
-`python validasi_backbone.py`.
+Lalu di ModelSim `do sim/run_sim_backbone.do` (atau `vsim -c -do sim/run_sim_backbone.do`), dan
+`python scripts/validasi_backbone.py`.
 
 Dengan `--yolo`, skrip juga mencetak **"Cek BN-fold"**, yaitu selisih antara model float kita dan
 PyTorch asli. Nilainya harus sangat kecil (orde 1e-5 atau lebih kecil). Itu bukti bahwa BatchNorm

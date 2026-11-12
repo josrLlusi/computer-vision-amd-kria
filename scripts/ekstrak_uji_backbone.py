@@ -10,12 +10,12 @@ Model integer meniru RTL persis (Q16.16, akumulator 64-bit, acc[47:16], LUT SiLU
 residual wrap 32-bit), sehingga RTL yang benar harus cocok 0 LSB.
 
 Contoh (root repo, venv aktif):
-  python ekstrak_uji_backbone.py --mode c3k2 --layer 2 --size 16                 # cepat, acak
-  python ekstrak_uji_backbone.py --mode c3k2 --layer 2 --yolo yolo26n.pt --image gambar_tes.jpeg
-  python ekstrak_uji_backbone.py --mode chain --size 64 --yolo yolo26n.pt --image gambar_tes.jpeg
-  python ekstrak_uji_backbone.py --mode chain --yolo yolo26n.pt --image gambar_tes.jpeg   # 640 penuh (lama)
-  python ekstrak_uji_backbone.py --mode conv --kernel 3 --stride 1 --in-ch 8 --out-ch 4 --size 10
-Lalu: vsim -c -do run_sim_backbone.do   dan   python validasi_backbone.py
+  python scripts/ekstrak_uji_backbone.py --mode c3k2 --layer 2 --size 16                 # cepat, acak
+  python scripts/ekstrak_uji_backbone.py --mode c3k2 --layer 2 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
+  python scripts/ekstrak_uji_backbone.py --mode chain --size 64 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
+  python scripts/ekstrak_uji_backbone.py --mode chain --yolo yolo26n.pt --image assets/gambar_tes.jpeg   # 640 penuh (lama)
+  python scripts/ekstrak_uji_backbone.py --mode conv --kernel 3 --stride 1 --in-ch 8 --out-ch 4 --size 10
+Lalu: vsim -c -do sim/run_sim_backbone.do   dan   python scripts/validasi_backbone.py
 """
 import argparse
 import numpy as np

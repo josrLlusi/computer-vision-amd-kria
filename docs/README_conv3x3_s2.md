@@ -10,13 +10,13 @@ y = SiLU( BatchNorm( Conv2d(x, kernel 3x3, stride 2, padding 1, bias=False) ) )
 
 | Fitur | Status |
 |---|---|
-| Konvolusi 3×3, stride 2, multi-channel | ✅ |
-| Padding 1 (output 320×320 dari 640×640, sama dengan PyTorch) | ✅ |
-| BatchNorm (dilebur ke bobot + bias oleh skrip Python) | ✅ |
-| Aktivasi SiLU (LUT sigmoid 2049 titik + interpolasi linear) | ✅ |
-| MAC time-multiplexed (`PAR_IC`, `PAR_OC`) supaya muat di DSP | ✅ |
-| Handshake valid/ready dua arah (siap dirangkai / AXI-Stream) | ✅ |
-| Multi-frame (koordinat kembali ke 0 tiap `IMAGE_HEIGHT` baris) | ✅ |
+| Konvolusi 3×3, stride 2, multi-channel | ya |
+| Padding 1 (output 320×320 dari 640×640, sama dengan PyTorch) | ya |
+| BatchNorm (dilebur ke bobot + bias oleh skrip Python) | ya |
+| Aktivasi SiLU (LUT sigmoid 2049 titik + interpolasi linear) | ya |
+| MAC time-multiplexed (`PAR_IC`, `PAR_OC`) supaya muat di DSP | ya |
+| Handshake valid/ready dua arah (siap dirangkai / AXI-Stream) | ya |
+| Multi-frame (koordinat kembali ke 0 tiap `IMAGE_HEIGHT` baris) | ya |
 
 ## Dimensi asli yolo26n (skala n: width 0.25)
 
@@ -39,15 +39,15 @@ Layer neck 17 & 20 juga Conv 3×3/2 dan bisa memakai modul yang sama.
 
 ```bash
 # 1) Data uji: bobot ASLI + aktivasi ASLI dari gambar (butuh ultralytics + torch)
-python ekstrak_uji_multichannel.py --layer 0 --yolo yolo26n.pt --image gambar_tes.jpeg
+python scripts/ekstrak_uji_multichannel.py --layer 0 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
 #    atau cepat dengan bobot acak & ukuran kecil:
-python ekstrak_uji_multichannel.py --layer 5 --size 16
+python scripts/ekstrak_uji_multichannel.py --layer 5 --size 16
 
 # 2) Simulasi ModelSim (ubah BUBBLE/BACKPRESSURE/FRAMES di run_sim_multich.do untuk uji stres)
-vsim -c -do run_sim_multich.do
+vsim -c -do sim/run_sim_multich.do
 
 # 3) Validasi
-python validasi_simulasi_multich.py
+python scripts/validasi_simulasi_multich.py
 ```
 
 Ganti `--layer` dengan 1, 3, 5, atau 7 untuk layer lain. Dengan `--yolo` + `--image`, input layer

@@ -5,7 +5,7 @@ Memvalidasi sim_output.hex (hasil ModelSim) terhadap:
   1) tb_golden.hex         : golden BIT-EXACT (target: 0 LSB)
   2) tb_golden_float.npy   : referensi PyTorch float (laporan akurasi)
 
-Pemakaian (dari root repo):  python validasi_simulasi_multich.py [--tol 0]
+Pemakaian (dari root repo):  python scripts/validasi_simulasi_multich.py [--tol 0]
 """
 import argparse
 import re

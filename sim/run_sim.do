@@ -5,8 +5,8 @@ if {[file exists work]} {
 vlib work
 
 # Kompilasi desain utama dan testbench (menggunakan standar SystemVerilog)
-vlog -sv conv3x3_s2.sv
-vlog -sv tb_conv3x3.sv
+vlog -sv rtl/conv3x3_s2.sv
+vlog -sv tb/tb_conv3x3.sv
 
 # Muat testbench ke dalam simulator dengan optimasi yang mengizinkan pengamatan sinyal
 vsim -voptargs="+acc" work.tb_conv3x3

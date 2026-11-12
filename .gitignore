@@ -1,29 +1,26 @@
-# Lingkungan virtual Python
+# Python
 venv/
 __pycache__/
 
-# File model AI
+# Model dan output Ultralytics
 *.pt
 *.onnx
 *.part
-
-# File log dan output dari Ultralytics YOLO
 runs/
 
-# File data Hex dan simulasi FPGA
-*.hex
-*.dat
-*.vcd
-
-# File konfigurasi OS
-.DS_Store
-
-#File hasil generate
+# Data hasil generate (dibuat ulang oleh scripts/)
 *.hex
 *.npy
+*.dat
 tb_cfg.svh
 tb_params.svh
+
+# Output simulator (ModelSim/Questa)
 work/
 transcript
 *.wlf
+*.vcd
 tcl_stacktrace.txt
+
+# OS
+.DS_Store

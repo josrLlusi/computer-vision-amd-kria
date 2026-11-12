@@ -6,7 +6,7 @@ model = YOLO("yolo26n.pt")
 
 # 2. Menjalankan deteksi pada gambar contoh (gunakan gambar apapun di lokal Anda)
 # Parameter 'save=True' akan menyimpan hasil gambar dengan bounding box yang sudah digambar
-hasil = model.predict(source="gambar_tes.jpeg", save=True)
+hasil = model.predict(source="assets/gambar_tes.jpeg", save=True)
 
 # 3. Mengintip isi dari output (Tensor)
 for deteksi in hasil:

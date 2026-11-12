@@ -23,9 +23,9 @@ File keluaran (di folder kerja):
     tb_params.svh       parameter testbench (otomatis, jangan diedit)
 
 Contoh (dari root repo, venv aktif):
-    python ekstrak_uji_multichannel.py --layer 0 --size 64            # cepat, bobot acak
-    python ekstrak_uji_multichannel.py --layer 0 --yolo yolo26n.pt --image gambar_tes.jpeg
-    python ekstrak_uji_multichannel.py --layer 5 --yolo yolo26n.pt --image gambar_tes.jpeg
+    python scripts/ekstrak_uji_multichannel.py --layer 0 --size 64            # cepat, bobot acak
+    python scripts/ekstrak_uji_multichannel.py --layer 0 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
+    python scripts/ekstrak_uji_multichannel.py --layer 5 --yolo yolo26n.pt --image assets/gambar_tes.jpeg
       -> dengan --yolo + --image, input layer diambil dari aktivasi ASLI jaringan
          (hook PyTorch), dan golden float = keluaran layer PyTorch asli.
 """
@@ -277,7 +277,7 @@ def main():
     par_ic = args.par_ic or (pre[3] if x.shape[0] % pre[3] == 0 else 1)
     par_oc = args.par_oc or (pre[4] if w.shape[0] % pre[4] == 0 else 1)
     export_case(x, w, b, par_ic, par_oc, not args.no_silu, ref)
-    print("\nLanjut: vsim -c -do run_sim_multich.do   lalu   python validasi_simulasi_multich.py")
+    print("\nLanjut: vsim -c -do sim/run_sim_multich.do   lalu   python scripts/validasi_simulasi_multich.py")
 
 
 if __name__ == "__main__":

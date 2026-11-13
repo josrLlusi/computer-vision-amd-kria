@@ -1,0 +1,26 @@
+# Python
+venv/
+__pycache__/
+
+# Model dan output Ultralytics
+*.pt
+*.onnx
+*.part
+runs/
+
+# Data hasil generate (dibuat ulang oleh scripts/)
+*.hex
+*.npy
+*.dat
+tb_cfg.svh
+tb_params.svh
+
+# Output simulator (ModelSim/Questa)
+work/
+transcript
+*.wlf
+*.vcd
+tcl_stacktrace.txt
+
+# OS
+.DS_Store

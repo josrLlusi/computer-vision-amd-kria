@@ -1,0 +1,3 @@
+balanced (LANES=16 K=100 YXW=8 CW=7): LUT 18055 (15.4%) | FF 8034 (3.4%) | DSP 40 (3.2%) | BRAM36eq 56.5 (39.2%) | URAM 36 (56.2%)
+lean (LANES=8 K=100 YXW=8 CW=7): LUT 14497 (12.4%) | FF 7532 (3.2%) | DSP 32 (2.6%) | BRAM36eq 36.5 (25.3%) | URAM 18 (28.1%)
+DONE

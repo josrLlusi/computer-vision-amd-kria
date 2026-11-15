@@ -24,3 +24,6 @@ tcl_stacktrace.txt
 
 # OS
 .DS_Store
+*.vvp
+*.vcd
+*.hex

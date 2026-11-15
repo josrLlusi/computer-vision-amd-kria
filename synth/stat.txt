@@ -1,0 +1,35 @@
+
+10. Printing statistics.
+
+=== yolo26_head_kria_top ===
+
+   Number of wires:              34187
+   Number of wire bits:         123855
+   Number of public wires:        1775
+   Number of public wire bits:   29805
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              65314
+     BUFG                            1
+     CARRY4                       1251
+     DSP48E2                        40
+     FDRE                        20690
+     FDSE                           65
+     IBUF                           91
+     INV                           422
+     LUT1                          179
+     LUT2                         2486
+     LUT3                        16912
+     LUT4                         2652
+     LUT5                         5263
+     LUT6                        13994
+     MUXF7                         841
+     MUXF8                         169
+     MUXF9                          62
+     OBUF                           42
+     RAMB18E2                        9
+     RAMB36E2                       53
+     SRL16E                         56
+     URAM288                        36
+
